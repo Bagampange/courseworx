@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    CourseworX: Submit
+{% endblock %}
+
+{% block main %}
+    <h1 class="display-4 mb-5">Submit Assignment</h1>
+    <form class="col-6 mx-auto" action="/submit" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <select id="courseSelect" class="form-control form-select" name="course_code" onchange="updateInputFields()" required>
+                <option disabled selected value="">Select Course Code</option>
+                {% for pending in pendings %}
+                    <option value="{{ pending.course_code }}">{{ pending.course_code }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+
+            <input id="courseName" class="form-control mt-3" type="text" name="course_name" readonly placeholder="Course Name">
+        </div>
+        <div class="form-group">
+
+            <input id="assignmentNumber" class="form-control mt-3" type="number" name="assignment_number" readonly placeholder="Assignment Number">
+        </div>
+
+        <div class="form-group">
+
+            <input class="form-control mt-3 mb-3" name="pdf" type="file" accept="application/pdf">
+        </div>
+
+        <button class="btn btn-dark" type="submit">Submit</button>
+
+    </form>
+    <script>
+        const assignmentsData = JSON.parse('{{ pendings|tojson|safe }}');
+    </script>
+
+{% endblock %}

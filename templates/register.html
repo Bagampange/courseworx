@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    CourseworX: Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus required class="form-control mx-auto w-auto" name="name" placeholder="Name" type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" required class="form-control mx-auto w-auto" name="email" placeholder="example@gmail.com" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" required name="password" placeholder="Password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" required name="confirmation" placeholder="Confirm Password" type="password">
+        </div>
+        <button class="btn btn-dark" type="submit" name="action" value="register-student">Register Student</button>
+        <button class="btn btn-dark" type="submit" name="action" value="register-lecturer">Register Lecturer</button>
+    </form>
+{% endblock %}

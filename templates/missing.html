@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    CourseworX: Missing Students
+{% endblock %}
+
+{% block main %}
+    <h1 class="display-4 mb-5">Missing Students</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-start">Course Code:</th>
+                <td class="text-start" colspan="2">{{ course_code }}</td>
+            </tr>
+            <tr>
+                <th class="text-start">Course Name:</th>
+                <td class="text-start" colspan="2">{{ course_name }}</td>
+            </tr>
+            <tr>
+                <th class="text-start">Assignment Number:</th>
+                <td class="text-start" colspan="2">{{ assignment_number }}</td>
+            </tr>
+            <tr>
+                <th class="text-start">Assignment Deadline:</th>
+                <td class="text-start" colspan="2">{{ assignment_deadline }}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th class="text-center">Student ID</th>
+                <th class="text-center">Student Name</th>
+                <th class="text-center">Student Email</th>
+            </tr>
+            {% for student in missing %}
+                <tr>
+                    <td class="text-center">{{ student.student_id }}</td>
+                    <td class="text-center">{{ student.student_name }}</td>
+                    <td class="text-center">{{ student.student_email }}</td>
+                </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+{% endblock %}

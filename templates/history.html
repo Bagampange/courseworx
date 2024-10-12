@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    CourseworX: History
+{% endblock %}
+
+{% block main %}
+    <h1 class="display-4 mb-5">History</h1>
+    <table class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th class="text-start">Course Code</th>
+                <th class="text-center">Course Name</th>
+                <th class="text-center">Assignment Number</th>
+                {% if session["student_id"] %}
+                    <th class="text-center"><span class="text-success">Time</span>/<span class="text-danger">Deadline</span></th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Review</th>
+                {% endif %}
+                {% if session["lecturer_id"] %}
+                    <th class="text-center">Deadline</th>
+                    <th class="text-center" colspan="2">Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in past_assignments%}
+                <tr>
+                    <td class="text-start">{{ assignment.course_code }}</td>
+                    <td class="text-center">{{ assignment.course_name }}</td>
+                    <td class="text-center">{{ assignment.assignment_number}}</td>
+                    {% if session["student_id"] %}
+                        {% if assignment.status == "Submitted" %}
+                            <td class="text-center text-success">{{ assignment.time }}</td>
+                            <td class="text-center text-success">{{ assignment.status }}</td>
+                            <td class="text-center">
+                                <form class="index-submit form-inline" action="/review" method="post">
+                                    <input name="course_code" type="hidden" value="{{ assignment.course_code }}">
+                                    <input name="assignment_number" type="hidden" value="{{ assignment.assignment_number }}">
+                                    <button class="btn btn-dark" type="submit">Review</button>
+                                </form>
+                            </td>
+                        {% endif %}
+                        {% if assignment.status == "Missed" %}
+                            <td class="text-center text-danger">{{ assignment.deadline }}</td>
+                            <td class="text-center text-danger">{{ assignment.status }}</td>
+                            <td></td>
+                        {% endif %}
+                    {% endif %}
+                    {% if session["lecturer_id"] %}
+                        <td class="text-center">{{ assignment.deadline }}</td>
+                        <td class="text-center">
+                            <form class="index-submit form-inline" action="/missing" method="post">
+                                <input name="course_code" type="hidden" value="{{ assignment.course_code }}">
+                                <input name="course_name" type="hidden" value="{{ assignment.course_name }}">
+                                <input name="assignment_number" type="hidden" value="{{ assignment.assignment_number }}">
+                                <input name="assignment_deadline" type="hidden" value="{{ assignment.deadline }}">
+                                <button class="btn btn-dark" type="submit">Missing: {{ assignment.total - assignment.submitted }}</button>
+                            </form>
+                        </td>
+                        <td class="text-center">
+                            <form class="index-submit form-inline" action="/download-all" method="post">
+                                <input name="course_code" type="hidden" value="{{ assignment.course_code }}">
+                                <input name="assignment_number" type="hidden" value="{{ assignment.assignment_number }}">
+                                <button class="btn btn-dark" type="submit">DownloadAll</button>
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor%}
+        </tbody>
+    </table>
+{% endblock %}

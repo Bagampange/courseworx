@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    CourseworX
+{% endblock %}
+
+{% block main %}
+    <h1 class="display-4 mb-5">Overview</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-start">Course Code</th>
+                <th class="text-center">Course Name</th>
+                <th class="text-center">Assigment Number</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Deadline</th>
+                <th class="text-center" colspan="2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if session["student_id"] %}
+                {% for pending in pendings %}
+                    <tr>
+                        <td class="text-start">{{ pending.course_code }}</td>
+                        <td class="text-center">{{ pending.course_name }}</td>
+                        <td class="text-center">{{ pending.assignment_number }}</td>
+                        <td class="text-center text-primary">Pending</td>
+                        <td class="text-center">{{ pending.deadline }}</td>
+                        <td class="text-center">
+                            <form class="index-submit form-inline" action="/index-submit" method="post">
+                                <input name="course_code" type="hidden" value="{{ pending.course_code }}">
+                                <input name="course_name" type="hidden" value="{{ pending.course_name }}">
+                                <input name="assignment_number" type="hidden" value="{{ pending.assignment_number }}">
+                                <button class="btn btn-dark" type="submit">Submit</button>
+                            </form>
+                        </td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+                {% for submission in submissions %}
+                    <tr>
+                        <td class="text-start">{{ submission.course_code }}</td>
+                        <td class="text-center">{{ submission.course_name }}</td>
+                        <td class="text-center">{{ submission.assignment_number }}</td>
+                        <td class="text-center text-success">Submitted</td>
+                        <td class="text-center">{{ submission.deadline }}</td>
+                        <td class="text-center">
+                            <form class="index-submit form-inline" action="/review" method="post">
+                                <input name="course_code" type="hidden" value="{{ submission.course_code }}">
+                                <input name="assignment_number" type="hidden" value="{{ submission.assignment_number }}">
+                                <button class="btn btn-dark" type="submit">Review</button>
+                            </form>
+                        </td>
+                        <td class="text-center">
+                            <form class="index-submit form-inline" action="/resubmit" method="post">
+                                <input name="course_code" type="hidden" value="{{ submission.course_code }}">
+                                <input name="course_name" type="hidden" value="{{ submission.course_name }}">
+                                <input name="assignment_number" type="hidden" value="{{ submission.assignment_number }}">
+                                <button class="btn btn-dark" type="submit">Re-submit</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            {% if session["lecturer_id"] %}
+                {% for assignment in assignments %}
+                    <tr>
+                        <td class="text-start">{{ assignment.course_code }}</td>
+                        <td class="text-center">{{ assignment.course_name }}</td>
+                        <td class="text-center">{{ assignment.assignment_number }}</td>
+                        <td class="text-center">{{ assignment.submitted }}/{{ assignment.total }}</td>
+                        <td class="text-center">{{ assignment.deadline }}</td>
+                        <td class="text-center">
+                            <form class="index-submit form-inline" action="/missing" method="post">
+                                <input name="course_code" type="hidden" value="{{ assignment.course_code }}">
+                                <input name="course_name" type="hidden" value="{{ assignment.course_name }}">
+                                <input name="assignment_number" type="hidden" value="{{ assignment.assignment_number }}">
+                                <input name="assignment_deadline" type="hidden" value="{{ assignment.deadline }}">
+                                <button class="btn btn-dark" type="submit">Missing: {{ assignment.total - assignment.submitted }}</button>
+                            </form>
+                        </td>
+                        <td class="text-center">
+                            <form class="index-submit form-inline" action="/adjust" method="post">
+                                <input name="course_code" type="hidden" value="{{ assignment.course_code }}">
+                                <input name="course_name" type="hidden" value="{{ assignment.course_name }}">
+                                <input name="assignment_number" type="hidden" value="{{ assignment.assignment_number }}">
+                                <input name="deadline" type="hidden" value="{{ assignment.deadline }}">
+                                <button class="btn btn-dark" type="submit">Adjust</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

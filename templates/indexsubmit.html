@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    CourseworX: Submit
+{% endblock %}
+
+{% block main %}
+    <h1 class="display-4 mb-5">Submit Assignment</h1>
+    <form class="col-6 mx-auto" action="/submit" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <input id="courseCode" class="form-control" type="text" name="course_code" readonly value="{{ course_code }}">
+        </div>
+
+        <div class="form-group">
+            <input id="courseName" class="form-control mt-3" type="text" name="course_name" readonly value="{{ course_name }}">
+        </div>
+        <div class="form-group">
+            <input id="assignmentNumber" class="form-control mt-3" type="number" name="assignment_number" readonly value="{{ assignment_number }}">
+        </div>
+        <div class="form-group">
+            <input class="form-control mt-3 mb-3" name="pdf" type="file" accept="application/pdf">
+        </div>
+        <button class="btn btn-dark" type="submit">Submit</button>
+    </form>
+
+{% endblock %}

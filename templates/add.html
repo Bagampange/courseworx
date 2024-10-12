@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    CourseworX: Add
+{% endblock %}
+
+{% block main %}
+    <h1 class="display-4 mb-5">Add Assignment</h1>
+    <form class="col-6 mx-auto" action="/add" method="post">
+        <div class="form-group">
+            <select id="courseSelect" class="form-control form-select" name="course_code" onchange="updateInputFields()" required>
+                <option disabled selected value="">Select Course Code</option>
+                {% for assignment in assignments %}
+                    <option value="{{ assignment.course_code }}">{{ assignment.course_code }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <input id="courseName" class="form-control mt-3" type="text" name="course_name" readonly placeholder="Course Name">
+        </div>
+        <div class="form-group">
+            <input id="assignmentNumber" class="form-control mt-3" type="number" name="assignment_number" readonly placeholder="Assignment Number">
+        </div>
+        <div class="form-group">
+            <input id="deadline" class="form-control mt-3 mb-3" type="datetime-local" name="deadline">
+        </div>
+        <button class="btn btn-dark" type="submit">Add</button>
+    </form>
+    <script>
+        const assignmentsData = JSON.parse('{{ assignments|tojson|safe }}');
+    </script>
+{% endblock %}
