@@ -24,7 +24,7 @@ The **COURSEWORX** application is developed to address the needs of both student
 
 ### Installation Instructions
 To set up the COURSEWORX application on your local machine, follow these steps:
-1. **Clone the Repository**: Use `git clone <repository-url>` to clone the project.
+1. **Clone the Repository**: Use `git clone https://github.com/Bagampange/courseworx` to clone the project.
 2. **Install Dependencies**: Navigate to the project directory and run `pip install -r requirements.txt` to install necessary packages.
 3. **Set Up the Database**: Run the initialization script to create the required database tables.
 4. **Start the Application**: Use `flask run` to start the web server.
@@ -54,7 +54,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ### Contact Information
 For support or inquiries, please reach out to:
 - **Author**: Ronald Bagampange
-- **Email**: [your-email@example.com]
+- **Email**: bagampangeronald@gmail.com
 
 #### FrontEnd:
 * HTML
